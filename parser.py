@@ -1,7 +1,7 @@
 
 import os.path
 import argparse
-import constant as cs
+import konstanta as cs
 
 def is_number(s):
     try:
@@ -41,8 +41,6 @@ def read_input(input_file):
                     else:
                         hasil.append("word")
         hasil.append("epsilon")
-    # hasil dalam bentuk array of string:
-    # ['while', '(', 'word', '=', 'True', ')', ':', 'continue', 'while', '(', 'word', '=', 'False', ')', ':', 'pass', '-', 'epsilon']
     return hasil
 
 
@@ -53,24 +51,13 @@ def parse(file_grammar:str,file_input:str):
     length = len(inputan)
     print("-----------INPUT----------\n",inputan)
     CYK = [[[] for x in range(length - y)] for y in range(length)]
-    """
-        misal input A B C D, length = 4
-        []
-        [][]
-        [][][]
-        [][][][]
-    """
-    # inputan = list(enumerate(inputan))
-    #mengenumerasikan, yaitu masing masing elemen diberi indeksnya
-    #bentuk inputan sekarang : [(0,'while'),(1,'('),(2,'word'),....]
     j = -1
     print("length cyk 0 : ",len(CYK[0]))
     for symbol in inputan:
         found = False
-    # i melambangkan angkanya, inputan melambangkan elemen
-        for rule in grammar:                     # Bentuk Rule = ['S', 'WHILE_COND', 'EPSILON']
+        for rule in grammar:                  
             #print("rule - ",rule[0])
-            if f"'{symbol}'" == rule[1]:         # Misalnya ada terminal berbentuk 'symbol' , maka di append
+            if f"'{symbol}'" == rule[1]:        
                 if(not(found)):
                     j += 1
                 found = True
@@ -79,10 +66,9 @@ def parse(file_grammar:str,file_input:str):
                 #print(j)
                 CYK[0][j].append(a)
 
-    for baris in range(2, length + 1): #berapa banyak total baris dikurang satu krn baris ke-0 sudah terisi
-    # ini buat looping di parse table nya
-        for kolom in range(0, length - baris + 1): #cek jumlah kolom pada satu baris
-            for index_kiri in range(1, baris): #satu kotak cek berapa kali
+    for baris in range(2, length + 1): 
+        for kolom in range(0, length - baris + 1): 
+            for index_kiri in range(1, baris): 
                 kotak_kiri = CYK[index_kiri - 1][kolom]
                 kotak_kanan = CYK[baris - index_kiri - 1][kolom + index_kiri]
                 for rule in grammar:   # Bentuk Rule = ['S', 'WHILE_COND', 'EPSILON']
@@ -116,10 +102,7 @@ def printCYK(CYK :list):
         print()
 
 class Node:
-    """
-    Digunakan untuk menyimpan informasi dari simbol non terminal. Sebuah node bisa punya maksimal
-    2 anak. Bila dipanggil dalam suatu fungsi, akan mereturn simbol dari node tersebut
-    """
+
     def __init__(self, symbol, child1, child2=None):
         self.symbol = symbol
         self.child1 = child1
@@ -131,16 +114,11 @@ class Node:
         return self.symbol
 
 def run():
-    file_grammar = input("Masukkan nama file grammar : ")
-    file_input = input("Masukkan nama file input : ")
+    file_grammar = input("Nama file grammar : ")
+    file_input = input("Nama file input : ")
     CYK = parse(file_grammar,file_input)
-    length = len(CYK) # [['DEF'], ['FUNCTION', 'VARIABLE', 'CONSTANT'] ]
-    # cyk[0] -> ['DEF']
-    # CYK[0][0] -> 'DEF'
-    # CYK[0][0][1] -> 'E'
-    # print("CYK \n",CYK)
-    # for i,N in enumerate(CYK):
-    #     print(i," N ",N)
+    length = len(CYK)
+
     if(CYK[length-1][0] != []):
         if(f"'{CYK[length-1][0][0]}'" == "'S'"):
             print("Accepted")
@@ -148,7 +126,6 @@ def run():
             print("Syntax Error")
     else:
         print("Syntax Error")
-    print("================================= CARA MENCETAK CYK ===================================")
     printCYK(CYK)
 
 
