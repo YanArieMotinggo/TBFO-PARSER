@@ -1,0 +1,5 @@
+import pil as p as a
+
+x=12
+y=15
+z=34
