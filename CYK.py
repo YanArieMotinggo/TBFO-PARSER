@@ -114,8 +114,8 @@ class Node:
         return self.symbol
 
 def run():
-    file_grammar = input("Nama file grammar : ")
-    file_input = input("Nama file input : ")
+    file_grammar = "grammar.txt"
+    file_input = "input.txt"
     CYK = parse(file_grammar,file_input)
     length = len(CYK)
 
@@ -127,6 +127,15 @@ def run():
     else:
         print("Syntax Error")
     printCYK(CYK)
+   
 
-
+print(" ___________________________________")
+print("|                                  |")
+print("|                                  |")
+print("|               CYK                |")
+print("|     Aufa Fadhlurohman 13518009   |")
+print("|     Irfan Dwi Kusuma 13518060    |")
+print("|     Yan Arie Motinggo 13518129   |")
+print("|                                  |")
+print(" ___________________________________")
 run()
